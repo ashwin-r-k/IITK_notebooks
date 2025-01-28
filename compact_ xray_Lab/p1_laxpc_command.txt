@@ -1,0 +1,53 @@
+#Loading And Analysing to Make the Lightcurve
+export LAXPCDATAPATH="../LEVL1*/*/laxpc"
+laxpc_make_filelist
+laxpc_make_event eventfiles
+laxpc_make_stdgti filterfiles
+
+laxpc_make_lightcurve  -p all -t 1.0 -u usergti.fits level2.event.fits
+
+#Analysing and making Backlight curve 
+laxpc_make_spectra -u usergti.fits level2.event.fits
+laxpc_make_backspectra -u usergti.fits filterfiles
+laxpc_make_backlightcurve -p all  -t 1.0 -u usergti.fits filterfiles
+
+#Calculating the Background Substracted in Lcmath.
+lcmath infile="lightcurve_3.0_80.0keV.lc" bgfile="Back_lightcurve_3.0_80.0keV.lc" outfile="BackSub_3.0_80.0keV.lc" multi=1 multb=1 addsubr = no
+
+#Opening one plot in lcurve for cfile1 And ploting the substracted light curve:
+lcurve nser = 1 cfile1 = "BackSub_3.0_80.0keV.lc" window = "-" dtnb=1 outfile="out_plotlc.lc" plot=yes plotdev="/xw"
+
+#Creating HR1 and HR2
+Create ene files with energy range
+3 8
+8 15
+15 30
+
+Generate the Light Curve And Backlight Curve 
+laxpc_make_lightcurve  -e ene -p all -t 1.0 -u usergti.fits level2.event.fits
+laxpc_make_backlightcurve -e ene -p all  -t 1.0 -u usergti.fits filterfiles
+
+For each energy range make the back substracted light curve.
+lcmath infile="lightcurve.lc" bgfile="Back_lightcurve.lc" outfile="BackSubstracted.lc" multi=1 multb=1 addsubr = no
+
+Use the Background Sustracted light curve to make the plot of HR1 and HR2
+lcurve nser = 2 cfile1 = "First lightcurve" cfile2 = "second lightcurve" window = "-" dtnb=1 outfile="out_plotlc.lc" plot=yes plotdev="/xw"
+
+
+
+
+#Commands in Iplot window to Arrange the plot clearly.
+r x 3240 3300
+r y
+#To save file
+h file_name.ps/ps 
+label x text 
+label y text
+#Replot
+pl
+
+#selecting Window # 1,2,3 no of window
+win 1 
+
+lcurve nser = 2 cfile1 = "BackSub_3.0_80.0keV.lc" cfile2 = "lightcurve_3.0_80.0keV.lc" window = "-" dtnb=1 outfile="out_plotlc.lc" plot=yes plotdev="/xw"
+
