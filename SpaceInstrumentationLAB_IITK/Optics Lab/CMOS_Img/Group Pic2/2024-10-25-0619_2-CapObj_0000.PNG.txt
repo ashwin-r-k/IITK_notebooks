@@ -1,0 +1,20 @@
+[ZWO ASI462MM]
+Auto Exp Max Exp = 30000ms
+Auto Exp Max Gain = 300
+Auto Exp Target Brightness = 100
+Bin = 1
+Brightness = 1
+Capture Area Size = 1936 * 1096
+Colour Format = RAW8
+Debayer Type = NONE
+Exposure = 4.445ms
+Flip = None
+Gain = 200
+Hardware Bin = OFF
+High Speed Mode = OFF
+StartX = 0
+StartY = 0
+Temperature = 35.5 C
+Timestamp Frames = OFF
+USB Limit = 80
+USB Port = 2.0
